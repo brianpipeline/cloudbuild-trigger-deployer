@@ -1,0 +1,27 @@
+steps:
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: "Run pipeline tests"
+    entrypoint: "bash"
+    args:
+      - "-eEuo"
+      - "pipefail"
+      - "-c"
+      - |-
+        #!/bin/bash
+        ./tests/submissions.sh
+
+  - name: "us-central1-docker.pkg.dev/cloud-build-pipeline-396819/cloud-build-helper-docker/cloud-build-helper-docker:0.1"
+    id: "Run deploy pipeline"
+    entrypoint: "bash"
+    args:
+      - "-eEuo"
+      - "pipefail"
+      - "-c"
+      - |-
+        #!/bin/bash
+        source deploy-pipeline.sh
+        deployPipelines "$PROJECT_ID"
+    env:
+      - "PROJECT_ID=$PROJECT_ID"
+options:
+  substitutionOption: "ALLOW_LOOSE"
