@@ -1,6 +1,6 @@
 #!/bin/bash
 
-topicName="test-topic"
+topicName="cloudbuild-trigger-deployer-test"
 subscription_name="test-subscription"
 if ! gcloud pubsub topics create "$topicName"; then
     echo "Topic $topicName already exists"
@@ -15,7 +15,7 @@ gcloud builds submit . --config cloudbuild.yaml --substitutions "_REPO_TO_CLONE=
 message=$(gcloud pubsub subscriptions pull --auto-ack "$subscription_name" --format='value(message.data)' 2>/dev/null)
 if [[ -n $message ]]; then
     echo "Received Message: $message"
-    return 0
+    exit 0
 else
-    return 1
+    exit 1
 fi
