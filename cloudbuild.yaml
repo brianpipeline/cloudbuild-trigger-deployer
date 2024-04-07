@@ -47,6 +47,6 @@ steps:
 options:
   substitutionOption: "ALLOW_LOOSE"
 substitutions:
-  _REPO_TO_CLONE: $(body.message.git.clone_url)
-  _REPO_NAME: $(body.message.git.name)
-  _REPLY_TOPIC: $(body.message.reply_topic)
+  _REPO_TO_CLONE: $(body.message.data.git.clone_url)
+  _REPO_NAME: $(body.message.data.git.name)
+  _REPLY_TOPIC: $(body.message.data.reply_topic)
