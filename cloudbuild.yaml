@@ -7,17 +7,20 @@ steps:
   - name: "gcr.io/cloud-builders/gcloud"
     id: "Run pipeline tests"
     entrypoint: "bash"
+    dir: "${_REPO_NAME}"
     args:
       - "-eEuo"
       - "pipefail"
       - "-c"
       - |-
         #!/bin/bash
+        chmod +x ./tests/submissions.sh
         ./tests/submissions.sh
 
   - name: "us-central1-docker.pkg.dev/cloud-build-pipeline-396819/cloud-build-helper-docker/cloud-build-helper-docker:0.1"
     id: "Run deploy pipeline"
     entrypoint: "bash"
+    dir: "${_REPO_NAME}"
     args:
       - "-eEuo"
       - "pipefail"
@@ -45,4 +48,5 @@ options:
   substitutionOption: "ALLOW_LOOSE"
 substitutions:
   _REPO_TO_CLONE: $(body.message.git.clone_url)
+  _REPO_NAME: $(body.message.git.name)
   _REPLY_TOPIC: $(body.message.reply_topic)
