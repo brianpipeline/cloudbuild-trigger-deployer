@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Submission should should complete and pubsub message should arrive.
 topicName="cloudbuild-trigger-deployer-test"
 subscription_name="test-subscription"
 if ! gcloud pubsub topics create "$topicName"; then
