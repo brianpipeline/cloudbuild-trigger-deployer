@@ -35,7 +35,7 @@ steps:
       - |-
         #!/bin/bash
         source deploy-pipeline.sh
-        deployPipelines "$PROJECT_ID" "$_REPLY_TOPIC"
+        deployPipelines "$PROJECT_ID" "$_REPLY_TOPIC" "$_GIT_REF"
     env:
       - "PROJECT_ID=$PROJECT_ID"
 
