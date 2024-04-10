@@ -13,9 +13,18 @@ fi
 gcloud builds submit . --config cloudbuild.yaml --substitutions "_REPO_TO_CLONE=https://github.com/brianpipeline/test-cloudbuild.git,_REPO_NAME="test-cloudbuild",_REPLY_TOPIC=\"projects/cloud-build-pipeline-396819/topics/$topicName\"" --region=us-central1
 
 message=$(gcloud pubsub subscriptions pull --auto-ack "$subscription_name" --format='value(message.data)' 2>/dev/null)
-if [[ -n $message ]]; then
+if [[ $message == "Pipeline succeeded." ]]; then
     echo "Received Message: $message"
-    exit 0
+else
+    exit 1
+fi
+
+# Submission should fail and pubsub message should say "pipeline failed".
+gcloud builds submit . --config cloudbuild.yaml --substitutions "_REPO_TO_CLONE=https://github.com/brianpipeline/test-cloudbuild-failure.git,_REPO_NAME="test-cloudbuild-failure",_REPLY_TOPIC=\"projects/cloud-build-pipeline-396819/topics/$topicName\"" --region=us-central1
+
+message=$(gcloud pubsub subscriptions pull --auto-ack "$subscription_name" --format='value(message.data)' 2>/dev/null)
+if [[ $message == "Pipeline failed." ]]; then
+    echo "Received Message: $message"
 else
     exit 1
 fi
