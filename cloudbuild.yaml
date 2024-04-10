@@ -59,3 +59,4 @@ substitutions:
   _GIT_REF: $(body.message.data.git.ref)
   _GIT_HEAD_SHA: $(body.message.data.git.head_sha)
   _REPLY_TOPIC: $(body.message.data.reply_topic)
+
