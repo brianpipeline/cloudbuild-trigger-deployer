@@ -15,7 +15,7 @@ steps:
       - |-
         #!/bin/bash
         source run-cloudbuild-tests.sh
-        runTests "$_REPLY_TOPIC"
+        runCloudBuildTests "$_REPLY_TOPIC"
 
   - name: "us-central1-docker.pkg.dev/cloud-build-pipeline-396819/cloud-build-helper-docker/cloud-build-helper-docker:0.1"
     id: "Run deploy pipeline"
