@@ -41,8 +41,8 @@ steps:
       - "-c"
       - |-
         #!/bin/bash
-        source reply-to-queue.sh
-        reply "$_REPLY_TOPIC" "Message from Cloud Build: Pipeline completed successfully"
+        source send-message.sh
+        sendMessage "$_REPLY_TOPIC" "Message from Cloud Build: Pipeline completed successfully"
 
 options:
   substitutionOption: "ALLOW_LOOSE"
