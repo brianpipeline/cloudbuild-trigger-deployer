@@ -4,7 +4,7 @@ steps:
     entrypoint: "bash"
     args: ["-c", "git clone $_REPO_TO_CLONE"]
 
-  - name: "gcr.io/cloud-builders/gcloud"
+  - name: "us-central1-docker.pkg.dev/cloud-build-pipeline-396819/cloud-build-helper-docker/cloud-build-helper-docker:0.1"
     id: "Run pipeline tests"
     entrypoint: "bash"
     dir: "${_REPO_NAME}"
@@ -14,9 +14,9 @@ steps:
       - "-c"
       - |-
         #!/bin/bash
-        chmod +x ./tests/submissions.sh
-        ./tests/submissions.sh
-  
+        source run-cloudbuild-tests.sh
+        runTests "$_REPLY_TOPIC"
+
   - name: "us-central1-docker.pkg.dev/cloud-build-pipeline-396819/cloud-build-helper-docker/cloud-build-helper-docker:0.1"
     id: "Run deploy pipeline"
     entrypoint: "bash"
@@ -28,7 +28,7 @@ steps:
       - |-
         #!/bin/bash
         source deploy-pipeline.sh
-        deployPipelines "$PROJECT_ID"
+        deployPipelines "$PROJECT_ID" "$_REPLY_TOPIC"
     env:
       - "PROJECT_ID=$PROJECT_ID"
 
