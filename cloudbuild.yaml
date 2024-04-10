@@ -42,7 +42,7 @@ steps:
       - |-
         #!/bin/bash
         source send-message.sh
-        sendMessage "$_REPLY_TOPIC" "Message from Cloud Build: Pipeline completed successfully"
+        sendMessage "$_REPLY_TOPIC" "Pipeline succeeded."
 
 options:
   substitutionOption: "ALLOW_LOOSE"
