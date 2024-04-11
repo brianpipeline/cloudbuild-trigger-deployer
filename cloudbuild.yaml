@@ -8,7 +8,6 @@ steps:
       - "-c"
       - |-
         #!/bin/bash
-        source git-clone-and-checkout.sh
         cloneAndCheckoutBranch "$_GIT_CLONE_URL" "$_GIT_REPOSITORY_NAME" "$_GIT_REF" "$_GIT_HEAD_SHA"
 
   - name: "us-central1-docker.pkg.dev/cloud-build-pipeline-396819/cloud-build-helper-docker/cloud-build-helper-docker:latest"
@@ -21,7 +20,6 @@ steps:
       - "-c"
       - |-
         #!/bin/bash
-        source run-cloudbuild-tests.sh
         runCloudBuildTests "$_REPLY_TOPIC"
 
   - name: "us-central1-docker.pkg.dev/cloud-build-pipeline-396819/cloud-build-helper-docker/cloud-build-helper-docker:latest"
@@ -34,7 +32,6 @@ steps:
       - "-c"
       - |-
         #!/bin/bash
-        source deploy-pipeline.sh
         deployPipelines "$PROJECT_ID" "$_REPLY_TOPIC" "$_GIT_REF"
     env:
       - "PROJECT_ID=$PROJECT_ID"
@@ -48,7 +45,6 @@ steps:
       - "-c"
       - |-
         #!/bin/bash
-        source send-message.sh
         sendMessage "$_REPLY_TOPIC" "Pipeline succeeded."
 
 options:
